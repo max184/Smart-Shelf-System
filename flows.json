@@ -1,0 +1,290 @@
+[
+    {
+        "id": "ce50eacf8b997dd9",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "892d62d3a5852d93",
+        "type": "ui_form",
+        "z": "ce50eacf8b997dd9",
+        "name": "",
+        "label": "Item input form (infomation needs to include where it came from and condition)",
+        "group": "f6839ed5.4f9e9",
+        "order": 1,
+        "width": 8,
+        "height": 15,
+        "options": [
+            {
+                "label": "Name",
+                "value": "name",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Info",
+                "value": "info",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Shelf",
+                "value": "shelf",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Mac",
+                "value": "mac",
+                "type": "text",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Job Num",
+                "value": "jobnum",
+                "type": "text",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Notes",
+                "value": "notes",
+                "type": "text",
+                "required": false,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "name": "",
+            "info": "",
+            "shelf": "",
+            "mac": "",
+            "jobnum": "",
+            "notes": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "",
+        "topic": "form",
+        "topicType": "str",
+        "splitLayout": false,
+        "className": "",
+        "x": 560,
+        "y": 260,
+        "wires": [
+            [
+                "5681ae85d35586f6"
+            ]
+        ]
+    },
+    {
+        "id": "5681ae85d35586f6",
+        "type": "function",
+        "z": "ce50eacf8b997dd9",
+        "name": "Prepare Data",
+        "func": "// Append form data to the existing data array\nvar newData = {\n    id: Date.now(), // Unique timestamp-based ID\n    name: msg.payload.name,\n    info: msg.payload.info,\n    shelf: msg.payload.shelf,\n    mac: msg.payload.mac,\n    jobnum: msg.payload.jobnum,\n    notes: msg.payload.notes\n};\n\n// Sample data (initial data)\nvar initialData = flow.get(\"initialData\") || [];\ninitialData.push(newData);\n\n// Save the updated data array\nflow.set(\"initialData\", initialData);\n\n// Output the updated data\nmsg.payload = initialData;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 340,
+        "wires": [
+            [
+                "c2e0cde47d689f15"
+            ]
+        ]
+    },
+    {
+        "id": "585bf9a0fc7a040a",
+        "type": "ui_table",
+        "z": "ce50eacf8b997dd9",
+        "group": "7944ac4f84db25f7",
+        "name": "",
+        "order": 1,
+        "width": 16,
+        "height": 15,
+        "columns": [
+            {
+                "field": "id",
+                "title": "ID",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "name",
+                "title": "Name",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "info",
+                "title": "Info",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "shelf",
+                "title": "Shelf",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "mac",
+                "title": "Mac",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "jobnum",
+                "title": "Job Number",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "notes",
+                "title": "Notes",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 730,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "c2e0cde47d689f15",
+        "type": "file",
+        "z": "ce50eacf8b997dd9",
+        "name": "",
+        "filename": "data.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 600,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "37bf83f36f83a10a",
+        "type": "file in",
+        "z": "ce50eacf8b997dd9",
+        "name": "",
+        "filename": "data.txt",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 600,
+        "y": 380,
+        "wires": [
+            [
+                "585bf9a0fc7a040a"
+            ]
+        ]
+    },
+    {
+        "id": "e63c379ce8021809",
+        "type": "ui_button",
+        "z": "ce50eacf8b997dd9",
+        "name": "",
+        "group": "f6839ed5.4f9e9",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Refresh",
+        "tooltip": "Refresh",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 440,
+        "y": 380,
+        "wires": [
+            [
+                "37bf83f36f83a10a"
+            ]
+        ]
+    },
+    {
+        "id": "f6839ed5.4f9e9",
+        "type": "ui_group",
+        "name": "Form",
+        "tab": "64d7d90b.44c9b",
+        "order": 1,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7944ac4f84db25f7",
+        "type": "ui_group",
+        "name": "Table",
+        "tab": "64d7d90b.44c9b",
+        "order": 2,
+        "disp": true,
+        "width": 16,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "64d7d90b.44c9b",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
